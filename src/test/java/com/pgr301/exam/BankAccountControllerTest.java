@@ -12,7 +12,7 @@ public class BankAccountControllerTest {
 
     @Test
     public void contextLoads() {
-        assertThat(bankAccountController).isNotNull();
+        assertThat(bankAccountController).isNull();
     }
 
 }
