@@ -37,7 +37,7 @@ jobs:
         continue-on-error: true
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
-          tf_actions_subcommand: "plan -no-color"
+          tf_actions_subcommand: "plan"
           tf_actions_version: "latest"
           tf_actions_working_dir: infra/
 
