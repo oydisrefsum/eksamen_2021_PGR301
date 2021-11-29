@@ -41,6 +41,7 @@ jobs:
           tf_actions_working_dir: infra/
 
       - name: Terraform - Validate
+        id: validate
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
           tf_actions_subcommand: "validate"
@@ -87,7 +88,7 @@ jobs:
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: terraform apply -auto-approve
 
 
