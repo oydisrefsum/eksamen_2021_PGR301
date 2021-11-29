@@ -23,6 +23,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Terraform Format
+        id: fmt
+        uses: hashicorp/terraform-github-actions@v0.8.0
+        with:
+          tf_actions_subcommand: "format"
+          tf_actions_version: "latest"
+          tf_actions_working_dir: infra/
+
       - name: Terraform Init
         id: init
         uses: hashicorp/terraform-github-actions@v0.8.0
@@ -31,15 +39,22 @@ jobs:
           tf_actions_version: "latest"
           tf_actions_working_dir: infra/
 
+      - name: Terraform - Validate
+        uses: hashicorp/terraform-github-actions@v0.8.0
+        with:
+          tf_actions_subcommand: "validate"
+          tf_actions_version: "latest"
+          tf_actions_working_dir: infra/
+
       - name: Terraform Plan
         id: plan
         if: github.event_name == 'pull_request'
-        continue-on-error: true
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
           tf_actions_subcommand: "plan"
           tf_actions_version: "latest"
           tf_actions_working_dir: infra/
+        continue-on-error: true
 
       - uses: actions/github-script@0.9.0
         if: github.event_name == 'pull_request'
@@ -67,10 +82,7 @@ jobs:
             })
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
-        uses: hashicorp/terraform-github-actions@v0.8.0
-        with:
-          tf_actions_subcommand: "exit 1"
-          tf_actions_working_dir: infra/
+        run: exit 1
 
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
