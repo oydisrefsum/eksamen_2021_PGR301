@@ -27,9 +27,10 @@ jobs:
         id: fmt
         uses: hashicorp/terraform-github-actions@v0.8.0
         with:
-          tf_actions_subcommand: "fmt -check"
+          tf_actions_subcommand: "fmt"
           tf_actions_version: "latest"
           tf_actions_working_dir: infra/
+          args: "-check"
 
       - name: Terraform Init
         id: init
@@ -54,6 +55,7 @@ jobs:
           tf_actions_subcommand: "plan"
           tf_actions_version: "latest"
           tf_actions_working_dir: infra/
+          args: "-no-color"
         continue-on-error: true
 
       - uses: actions/github-script@0.9.0
