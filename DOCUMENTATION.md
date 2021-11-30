@@ -104,13 +104,12 @@ docker run -p 7777:8080 navnPåImaget
 Medlemmer av "Team Dino" har av og til behov for å kjøre to ulike versjoner av applikasjonen lokalt på maskinen sin, _samtidig_ .Hvordan kan de gjøre dette uten å få en port-konflikt?  Hvilke to kommandoer kan man kjøre for å starte samme applikasjon to ganger, hvor den ene bruker port 7777 og den andre 8888?
 
 ```shell
-docker run -d -p 8888:8080 YOUR_IMAGE
+docker run -p 8888:8080 YOUR_IMAGE
 ```
 
 ```shell
-docker run -d -p 7777:8080 YOUR_IMAGEv2
+docker run -p 7777:8080 YOUR_IMAGEv2
 ```
-
 
 
  
