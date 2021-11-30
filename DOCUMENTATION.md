@@ -39,6 +39,33 @@ Hvis teamene istedenfor hadde jobbet i mindre team som har fult og helt ansvar f
 
 ### Endre applikasjonen slik at den gir fra seg telemetri
 
+* Hvilke spørring(er) kan sensor gjøre mot InfluxDB for å analysere problemet? For eksempel noe i retning av;
+
+```sql
+select * from account_id
+
+select * from http_server_requests
+
+select * from balance
+
+select * from update_account
+
+select * from transfer
+```
+
+* Start Grafana på lokal maskin ved hjelp av Docker. Bruk InfluxDB som en datakilde og legg ved et skjermbilde av et Dashboard du har laget som viser en Metric fra InfluxDB som er produsert av Micrometer rammeverket.
+
+Her er de tre øverste spørringene viktige da man tydelig ser på bilde at det veldig ofte vil være en backEndException hver gang en prøver å hente ut balance. Dette kan man i tillegg se på tiden den bruker for å hente responsen. Det er stor variasjon i tiden og det tar ofte lang tid.
+
+![all_grafana](Images/all_grafana.png)
+![big_grafana](Images/big_grafana.png)
+
+Her syntes i tillegg server error, client error og hver gang backend exception blir kalt
+
+![server](Images/server_error.png)
+![client](Images/client_error.png)
+![exception](Images/exception_grafana.png)
+
 ## Oppgave Terraform
 
 ### Drøft
@@ -104,13 +131,12 @@ docker run -p 7777:8080 navnPåImaget
 Medlemmer av "Team Dino" har av og til behov for å kjøre to ulike versjoner av applikasjonen lokalt på maskinen sin, _samtidig_ .Hvordan kan de gjøre dette uten å få en port-konflikt?  Hvilke to kommandoer kan man kjøre for å starte samme applikasjon to ganger, hvor den ene bruker port 7777 og den andre 8888?
 
 ```shell
-docker run -d -p 8888:8080 YOUR_IMAGE
+docker run -p 8888:8080 YOUR_IMAGE
 ```
 
 ```shell
-docker run -d -p 7777:8080 YOUR_IMAGEv2
+docker run -p 7777:8080 YOUR_IMAGEv2
 ```
-
 
 
  
