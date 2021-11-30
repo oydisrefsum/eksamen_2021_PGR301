@@ -130,6 +130,8 @@ DEVOPS
 
 Hvis sensor lagrer secrets med disse navnene skal ikke sensor trenge å endre noe i koden. Det sensor vil kunne trenge å endre er hvis hen bruker en annen region i AWS.
 
+I tillegg er det flere steder i terraform koden hvor sensor kan bruke eget navn. Dette er blandt annet på bucket navnet og ecr repositoriet.
+
 ### Dockerfile
 
 Hva vil kommandolinje for å _bygge_ et container image være? Fullfør ...
