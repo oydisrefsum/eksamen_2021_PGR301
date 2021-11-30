@@ -42,7 +42,17 @@ Hvis teamene istedenfor hadde jobbet i mindre team som har fult og helt ansvar f
 * Hvilke spørring(er) kan sensor gjøre mot InfluxDB for å analysere problemet? For eksempel noe i retning av;
 
 ```sql
-select * from account_id
+SELECT ("duration") FROM "account_up" WHERE ("metric_type" = 'long_task_timer') AND time >= now() - 1h
+
+SELECT ("duration") FROM "account_transfer" WHERE ("metric_type" = 'long_task_timer') AND time >= now() - 1h
+
+SELECT ("duration") FROM "account_id" WHERE ("metric_type" = 'long_task_timer') AND time >= now() - 1h
+
+SELECT * FROM "http_server_requests" WHERE ("exception" = 'BackEndException') AND ("uri" = '/account')
+
+SELECT * FROM "http_server_requests" WHERE ("exception" = 'BackEndException') AND ("uri" = '/account/{fromAccount}/transfer/{toAccount}')
+
+SELECT * FROM "http_server_requests" WHERE ("exception" = 'BackEndException') AND ("uri" = '/account/{accountId}')
 
 select * from http_server_requests
 
@@ -51,11 +61,17 @@ select * from balance
 select * from update_account
 
 select * from transfer
+
+select * from account_id
+
+select * from account_up
+
+select * from account_transfer
 ```
 
 * Start Grafana på lokal maskin ved hjelp av Docker. Bruk InfluxDB som en datakilde og legg ved et skjermbilde av et Dashboard du har laget som viser en Metric fra InfluxDB som er produsert av Micrometer rammeverket.
 
-Her er de tre øverste spørringene viktige da man tydelig ser på bilde at det veldig ofte vil være en backEndException hver gang en prøver å hente ut balance. Dette kan man i tillegg se på tiden den bruker for å hente responsen. Det er stor variasjon i tiden og det tar ofte lang tid.
+Her er de seks øverste spørringene viktige da man tydelig ser på bilde at det veldig ofte vil være en backEndException hver gang en prøver å gjøre en spørring. Dette kan man i tillegg se på tiden den bruker for å hente responsen. Det er stor variasjon i tiden og det tar ofte lang tid.
 
 ![all_grafana](Images/all_grafana.png)
 ![big_grafana](Images/big_grafana.png)

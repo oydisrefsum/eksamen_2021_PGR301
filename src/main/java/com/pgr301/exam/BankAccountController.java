@@ -29,12 +29,14 @@ public class BankAccountController implements ApplicationListener<ApplicationRea
     }
 
     @PostMapping(path = "/account/{fromAccount}/transfer/{toAccount}", consumes = "application/json", produces = "application/json")
+    @Timed(value = "account.transfer", longTask = true)
     public void transfer(@RequestBody Transaction tx, @PathVariable String fromAccount, @PathVariable String toAccount) {
         meterRegistry.counter("transfer", "amount", String.valueOf(tx.getAmount()) ).increment();
         bankService.transfer(tx, fromAccount, toAccount);
     }
 
     @PostMapping(path = "/account", consumes = "application/json", produces = "application/json")
+    @Timed(value = "account.up", longTask = true)
     public ResponseEntity<Account> updateAccount(@RequestBody Account a) {
         meterRegistry.counter("update_account").increment();
         bankService.updateAccount(a);
